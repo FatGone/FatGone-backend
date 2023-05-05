@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
-import { User } from './users/models/user.model';
-import { UsersModule } from './users/users.module';
+import { UserDetails } from './user_details/models/user_details.model';
+import { UserDetailsModule } from './user_details/user_details.module';
 import { AuthModule } from './auth/auth.module';
+import { CardDetails } from './payments/models/card_details.model';
+import { AccountModule } from './auth/accounts/account.module';
+import { Account } from './auth/accounts/model/account.model';
 
 @Module({
   imports: [
@@ -17,11 +20,12 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [User],
+      entities: [Account, UserDetails, CardDetails],
       synchronize: true,
     }),
+    AccountModule,
     AuthModule,
-    UsersModule,
+    UserDetailsModule,
   ],
   controllers: [],
   providers: [],
