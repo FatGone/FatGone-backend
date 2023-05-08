@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 import { UserDetails } from './user_details/models/user_details.model';
 import { UserDetailsModule } from './user_details/user_details.module';
 import { AuthModule } from './auth/auth.module';
-import { CardDetails } from './payments/models/card_details.model';
 import { AccountModule } from './accounts/account.module';
 import { Account } from './accounts/model/account.model';
+import { CardDetails } from './card_details/models/card_details.model';
+import { CardDetailsModule } from './card_details/card_details.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { Account } from './accounts/model/account.model';
     AccountModule,
     AuthModule,
     UserDetailsModule,
+    CardDetailsModule,
   ],
   controllers: [],
   providers: [],
