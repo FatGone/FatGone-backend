@@ -1,10 +1,10 @@
-import { IsEmail, MaxLength, IsString, Length, Matches } from 'class-validator';
+import { MaxLength, Length, Matches } from 'class-validator';
 import { UserDetails } from 'src/user_details/models/user_details.model';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -16,12 +16,10 @@ export class Account {
   id: number;
 
   @Column()
-  @IsEmail()
   @MaxLength(45)
   email: string;
 
   @Column()
-  @IsString()
   @Length(6, 60)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message:
@@ -29,22 +27,12 @@ export class Account {
   })
   password: string;
 
-  @Column({ nullable: true })
-  @OneToOne(() => UserDetails, (userDetails) => userDetails.id, {
+  @OneToOne(() => UserDetails, (userDetails) => userDetails.account, {
+    cascade: true,
     onDelete: 'CASCADE',
   })
-  @JoinTable({
-    name: 'userDetails',
-    joinColumn: {
-      name: 'accountId',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'userDetailsId',
-      referencedColumnName: 'id',
-    },
-  })
-  userDetailsId: number;
+  @JoinColumn()
+  userDetails: UserDetails;
   @CreateDateColumn()
   created_at: Date;
 
