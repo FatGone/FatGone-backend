@@ -5,7 +5,7 @@ import { UserDetails } from './models/user_details.model';
 import { UserDetailsService } from './services/user_details.service';
 import { UserDetailsController } from './controllers/user_details.controller';
 import { CardDetails } from 'src/payments/models/card_details.model';
-import { Account } from 'src/auth/accounts/model/account.model';
+import { Account } from 'src/accounts/model/account.model';
 
 @Module({
   imports: [

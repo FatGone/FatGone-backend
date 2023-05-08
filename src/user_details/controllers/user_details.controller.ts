@@ -17,8 +17,8 @@ import { UserDetails } from '../models/user_details.model';
 import { Secured } from 'src/auth/decorators/secured.decorator';
 import { CardDetailsDto } from '../dto/card_details.dto';
 import { CardDetails } from 'src/payments/models/card_details.model';
-import { CurrentAccount } from 'src/auth/accounts/decorators/account.decorator';
-import { Account } from 'src/auth/accounts/model/account.model';
+import { CurrentAccount } from 'src/accounts/decorators/account.decorator';
+import { Account } from 'src/accounts/model/account.model';
 
 @ApiTags('user-details')
 @Controller('user-details')

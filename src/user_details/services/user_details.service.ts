@@ -9,7 +9,7 @@ import { UserDetails } from '../models/user_details.model';
 import { UserDetailsDto } from '../dto/user_details.dto';
 import { CardDetailsDto } from '../dto/card_details.dto';
 import { CardDetails } from 'src/payments/models/card_details.model';
-import { Account } from 'src/auth/accounts/model/account.model';
+import { Account } from 'src/accounts/model/account.model';
 
 @Injectable()
 export class UserDetailsService {

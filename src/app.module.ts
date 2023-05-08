@@ -5,8 +5,8 @@ import { UserDetails } from './user_details/models/user_details.model';
 import { UserDetailsModule } from './user_details/user_details.module';
 import { AuthModule } from './auth/auth.module';
 import { CardDetails } from './payments/models/card_details.model';
-import { AccountModule } from './auth/accounts/account.module';
-import { Account } from './auth/accounts/model/account.model';
+import { AccountModule } from './accounts/account.module';
+import { Account } from './accounts/model/account.model';
 
 @Module({
   imports: [

@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { jwtTokenDTO } from '../models/jwt_token.dto';
 import { JwtPayload } from '../models/jwt_payload.dto';
 import { RegisterDto } from '../models/register.dto';
-import { AccountService } from '../accounts/services/account.service';
+import { AccountService } from 'src/accounts/services/account.service';
 
 @Injectable()
 export class AuthService {

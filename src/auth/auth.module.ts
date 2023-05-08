@@ -6,8 +6,8 @@ import { UserDetailsModule } from 'src/user_details/user_details.module';
 import { AuthController } from './controllers/auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AccountModule } from './accounts/account.module';
 import { AuthService } from './services/auth.service';
+import { AccountModule } from 'src/accounts/account.module';
 
 @Module({
   imports: [
