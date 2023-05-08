@@ -3,8 +3,8 @@ import { IsInt, IsString, MaxLength } from 'class-validator';
 
 export class CardDetailsDto {
   @ApiProperty()
-  @IsInt()
-  cardNumber: number;
+  @IsString()
+  cardNumber: string;
 
   @ApiProperty()
   @IsInt()
