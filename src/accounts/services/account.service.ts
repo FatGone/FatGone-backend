@@ -21,7 +21,7 @@ export class AccountService {
     const account = new Account();
     account.email = registerDto.email;
     account.password = registerDto.password;
-    account.userDetailsId = null;
+    account.userDetails = null;
     return this.accountRepository.save(account);
   }
   async findByEmail(email: string): Promise<Account | undefined> {
