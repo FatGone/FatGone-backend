@@ -31,7 +31,7 @@ export class AuthController {
   @Post('register')
   @ApiCreatedResponse({
     type: jwtTokenDto,
-    description: 'user registered successfully',
+    description: 'Account registered successfully',
   })
   @ApiBadRequestResponse({ description: 'Body does not match defined schema' })
   @ApiBadRequestResponse({
