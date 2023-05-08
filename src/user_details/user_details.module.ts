@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { Favourites } from 'src/favourites/models/favourites.model';
 import { UserDetails } from './models/user_details.model';
 import { UserDetailsService } from './services/user_details.service';
 import { UserDetailsController } from './controllers/user_details.controller';

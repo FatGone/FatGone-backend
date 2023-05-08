@@ -6,10 +6,7 @@ import { UserDetails } from 'src/user_details/models/user_details.model';
 import { Account } from './model/account.model';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Account, UserDetails]),
-    // TypeOrmModule.forFeature([Favourites]),
-  ],
+  imports: [TypeOrmModule.forFeature([Account, UserDetails])],
   controllers: [AccountController],
   providers: [AccountService],
   exports: [AccountService],

@@ -15,10 +15,11 @@ import { UserDetailsService } from '../services/user_details.service';
 import { UserDetailsDto } from '../dto/user_details.dto';
 import { UserDetails } from '../models/user_details.model';
 import { Secured } from 'src/auth/decorators/secured.decorator';
-import { CardDetailsDto } from '../dto/card_details.dto';
-import { CardDetails } from 'src/payments/models/card_details.model';
+import { CardDetailsDto } from '../../card_details/dto/card_details.dto';
+
 import { CurrentAccount } from 'src/accounts/decorators/account.decorator';
 import { Account } from 'src/accounts/model/account.model';
+import { CardDetails } from 'src/card_details/models/card_details.model';
 
 @ApiTags('user-details')
 @Controller('user-details')
@@ -38,10 +39,9 @@ export class UserDetailsController {
   @Patch()
   async patch(
     @CurrentAccount() account,
-    // @Param('id') id: number,w
-    @Body() userDto: UserDetailsDto,
+    @Body() userDetailsDto: UserDetailsDto,
   ): Promise<Account> {
-    return await this.userDetailsService.patch(account.id, userDto);
+    return await this.userDetailsService.patch(account.id, userDetailsDto);
   }
 
   @ApiCreatedResponse({
