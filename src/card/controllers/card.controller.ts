@@ -5,20 +5,20 @@ import {
   ApiNotFoundResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CardDetailsService } from '../services/card_details.service';
+import { CardService } from '../services/card.service';
 import { Secured } from 'src/auth/decorators/secured.decorator';
 import { CurrentAccount } from 'src/accounts/decorators/account.decorator';
-import { CardDetailsDto } from 'src/card_details/dto/card_details.dto';
-import { UserDetails } from 'src/user_details/models/user_details.model';
+import { CardDto } from 'src/card/dto/card.dto';
+import { AccountDetails } from 'src/account_details/models/account_details.model';
 
-@ApiTags('card-details')
-@Controller('card-details')
-export class CardDetailsController {
-  constructor(private cardDetailsService: CardDetailsService) {}
+@ApiTags('account/card')
+@Controller('account/card')
+export class CardController {
+  constructor(private cardService: CardService) {}
 
   @ApiCreatedResponse({
     type: String,
-    description: 'Updated user card details successfully',
+    description: 'Updated account card successfully',
   })
   @ApiBadRequestResponse({
     type: BadRequestException,
@@ -29,8 +29,8 @@ export class CardDetailsController {
   @Patch()
   async patch(
     @CurrentAccount() account,
-    @Body() cardDetailsDto: CardDetailsDto,
-  ): Promise<UserDetails> {
-    return await this.cardDetailsService.patch(account.id, cardDetailsDto);
+    @Body() cardDto: CardDto,
+  ): Promise<AccountDetails> {
+    return await this.cardService.patch(account.id, cardDto);
   }
 }

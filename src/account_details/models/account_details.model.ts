@@ -1,10 +1,10 @@
 import { MaxLength } from 'class-validator';
 import { Account } from 'src/accounts/model/account.model';
-import { CardDetails } from 'src/card_details/models/card_details.model';
+import { Card } from 'src/card/models/card.model';
 import * as typeorm from 'typeorm';
 
 @typeorm.Entity()
-export class UserDetails {
+export class AccountDetails {
   @typeorm.PrimaryGeneratedColumn()
   id: number;
 
@@ -28,19 +28,15 @@ export class UserDetails {
   @typeorm.Column()
   postCode: string;
 
-  @typeorm.OneToOne(() => Account, (account) => account.userDetails)
+  @typeorm.OneToOne(() => Account, (account) => account.accountDetails)
   account: Account;
 
-  @typeorm.OneToOne(
-    () => CardDetails,
-    (cardDetails) => cardDetails.userDetails,
-    {
-      cascade: true,
-      onDelete: 'CASCADE',
-    },
-  )
+  @typeorm.OneToOne(() => Card, (card) => card.accountDetails, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @typeorm.JoinColumn()
-  cardDetails: CardDetails;
+  card: Card;
   @typeorm.CreateDateColumn()
   created_at: Date;
 

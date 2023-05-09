@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger/dist/decorators/api-property.decorator';
 import * as classValidator from 'class-validator';
 
-export class UserDetailsDto {
+export class AccountDetailsDto {
   @ApiProperty()
   @classValidator.IsString()
   @classValidator.MaxLength(45)

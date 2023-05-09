@@ -12,35 +12,35 @@ export class AccountService {
   ) {}
 
   async create(registerDto: RegisterDto): Promise<Account> {
-    const userInDb = await this.findByEmail(registerDto.email);
-    if (userInDb) {
+    const accountInDb = await this.findByEmail(registerDto.email);
+    if (accountInDb) {
       throw new BadRequestException([
-        'User with given email address already exists',
+        'Account with given email address already exists',
       ]);
     }
     const account = new Account();
     account.email = registerDto.email;
     account.password = registerDto.password;
-    account.userDetails = null;
+    account.accountDetails = null;
     return this.accountRepository.save(account);
   }
   async findByEmail(email: string): Promise<Account | undefined> {
     return this.accountRepository.findOne({
       where: { email },
-      relations: { userDetails: true },
+      relations: { accountDetails: true },
     });
   }
   async findByEmailWithPassword(email: string): Promise<Account | undefined> {
     return this.accountRepository.findOne({
       where: { email },
       select: ['id', 'email', 'password'],
-      relations: { userDetails: true },
+      relations: { accountDetails: true },
     });
   }
   async findById(id: number): Promise<Account> {
     return this.accountRepository.findOne({
       where: { id: id },
-      relations: { userDetails: true },
+      relations: { accountDetails: true },
     });
   }
 }

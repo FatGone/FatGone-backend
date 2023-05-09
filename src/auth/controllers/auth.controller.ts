@@ -21,7 +21,7 @@ export class AuthController {
   @HttpCode(200)
   @ApiOkResponse({
     type: jwtTokenDto,
-    description: 'user authenticated successfully',
+    description: 'Account authenticated successfully',
   })
   @ApiUnauthorizedResponse({ description: 'invalid credentials' })
   async login(@Body() loginDto: LoginDto): Promise<jwtTokenDto> {
@@ -35,7 +35,7 @@ export class AuthController {
   })
   @ApiBadRequestResponse({ description: 'Body does not match defined schema' })
   @ApiBadRequestResponse({
-    description: 'User with specified email address already exists',
+    description: 'Account with specified email address already exists',
   })
   async register(@Body() registerDto: RegisterDto): Promise<jwtTokenDto> {
     return this.authService.register(registerDto);

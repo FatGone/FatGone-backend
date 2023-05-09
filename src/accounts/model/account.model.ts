@@ -1,4 +1,4 @@
-import { UserDetails } from 'src/user_details/models/user_details.model';
+import { AccountDetails } from 'src/account_details/models/account_details.model';
 import {
   Column,
   CreateDateColumn,
@@ -20,12 +20,12 @@ export class Account {
   @Column()
   password: string;
 
-  @OneToOne(() => UserDetails, (userDetails) => userDetails.account, {
+  @OneToOne(() => AccountDetails, (accountDetails) => accountDetails.account, {
     cascade: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn()
-  userDetails: UserDetails;
+  accountDetails: AccountDetails;
   @CreateDateColumn()
   created_at: Date;
 

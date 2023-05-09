@@ -1,5 +1,5 @@
 import { MaxLength } from 'class-validator';
-import { UserDetails } from 'src/user_details/models/user_details.model';
+import { AccountDetails } from 'src/account_details/models/account_details.model';
 import {
   Column,
   CreateDateColumn,
@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class CardDetails {
+export class Card {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -27,8 +27,8 @@ export class CardDetails {
   @MaxLength(90)
   cardHolder: string;
 
-  @OneToOne(() => UserDetails, (userDetails) => userDetails.cardDetails)
-  userDetails: UserDetails;
+  @OneToOne(() => AccountDetails, (accountDetails) => accountDetails.card)
+  accountDetails: AccountDetails;
 
   @CreateDateColumn()
   created_at: Date;

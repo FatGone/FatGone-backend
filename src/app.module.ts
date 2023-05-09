@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
-import { UserDetails } from './user_details/models/user_details.model';
-import { UserDetailsModule } from './user_details/user_details.module';
+import { AccountDetails } from './account_details/models/account_details.model';
+import { AccountDetailsModule } from './account_details/account_details.module';
 import { AuthModule } from './auth/auth.module';
 import { AccountModule } from './accounts/account.module';
 import { Account } from './accounts/model/account.model';
-import { CardDetails } from './card_details/models/card_details.model';
-import { CardDetailsModule } from './card_details/card_details.module';
+import { Card } from './card/models/card.model';
+import { CardModule } from './card/card.module';
 
 @Module({
   imports: [
@@ -21,13 +21,13 @@ import { CardDetailsModule } from './card_details/card_details.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Account, UserDetails, CardDetails],
+      entities: [Account, AccountDetails, Card],
       synchronize: true,
     }),
     AccountModule,
     AuthModule,
-    UserDetailsModule,
-    CardDetailsModule,
+    AccountDetailsModule,
+    CardModule,
   ],
   controllers: [],
   providers: [],
