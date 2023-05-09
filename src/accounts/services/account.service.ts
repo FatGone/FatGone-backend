@@ -34,6 +34,7 @@ export class AccountService {
     return this.accountRepository.findOne({
       where: { email },
       select: ['id', 'email', 'password'],
+      relations: { userDetails: true },
     });
   }
   async findById(id: number): Promise<Account> {
