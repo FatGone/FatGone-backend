@@ -3,23 +3,19 @@ import { Repository } from 'typeorm';
 import { Card as Card } from '../models/card.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CardDto } from 'src/card/dto/card.dto';
-import { Account } from 'src/accounts/model/account.model';
 import { AccountDetails } from 'src/account_details/models/account_details.model';
+import { AccountService } from 'src/accounts/services/account.service';
 
 @Injectable()
 export class CardService {
   constructor(
-    @InjectRepository(Account)
-    private readonly accountRepository: Repository<Account>,
     @InjectRepository(AccountDetails)
     private readonly accountDetailsRepository: Repository<AccountDetails>,
+    private readonly accountService: AccountService,
   ) {}
 
   async patch(accountId: number, cardDto: CardDto): Promise<AccountDetails> {
-    const findAccount = await this.accountRepository.findOne({
-      where: { id: accountId },
-      relations: { accountDetails: true },
-    });
+    const findAccount = await this.accountService.findById(accountId);
     if (findAccount != null) {
       const accountDetails = findAccount.accountDetails;
       const card = new Card();
