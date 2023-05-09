@@ -4,24 +4,21 @@ import { Repository } from 'typeorm/repository/Repository';
 import { AccountDetails } from '../models/account_details.model';
 import { AccountDetailsDto } from '../dto/account_details.dto';
 import { Account } from 'src/accounts/model/account.model';
+import { AccountService } from 'src/accounts/services/account.service';
 
 @Injectable()
 export class AccountDetailsService {
   constructor(
-    @InjectRepository(Account)
-    private readonly accountRepository: Repository<Account>,
     @InjectRepository(AccountDetails)
     private readonly accountDetailsRepository: Repository<AccountDetails>,
+    private readonly accountService: AccountService,
   ) {}
 
   async patch(
     accountId: number,
     accountDetailsDto: AccountDetailsDto,
   ): Promise<Account> {
-    const findAccount = await this.accountRepository.findOne({
-      where: { id: accountId },
-      relations: { accountDetails: true },
-    });
+    const findAccount = await this.accountService.findById(accountId);
 
     if (findAccount != null) {
       const accountDetails = new AccountDetails();
@@ -36,7 +33,7 @@ export class AccountDetailsService {
         accountDetails,
       );
       findAccount.accountDetails = savedAccountDetails;
-      return await this.accountRepository.save(findAccount);
+      return await this.accountService.patchAccount(findAccount);
     } else {
       throw new NotFoundException();
     }

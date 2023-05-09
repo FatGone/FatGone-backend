@@ -24,6 +24,10 @@ export class AccountService {
     account.accountDetails = null;
     return this.accountRepository.save(account);
   }
+
+  async patchAccount(account: Account): Promise<Account> {
+    return this.accountRepository.save(account);
+  }
   async findByEmail(email: string): Promise<Account | undefined> {
     return this.accountRepository.findOne({
       where: { email },

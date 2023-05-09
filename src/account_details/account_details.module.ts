@@ -5,11 +5,12 @@ import { AccountDetailsService } from './services/account_details.service';
 import { AccountDetailsController } from './controllers/account_details.controller';
 import { Account } from 'src/accounts/model/account.model';
 import { Card } from 'src/card/models/card.model';
+import { AccountService } from 'src/accounts/services/account.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AccountDetails, Card, Account])],
   controllers: [AccountDetailsController],
-  providers: [AccountDetailsService],
+  providers: [AccountDetailsService, AccountService],
   exports: [AccountDetailsService],
 })
 export class AccountDetailsModule {}
