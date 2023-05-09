@@ -27,6 +27,7 @@ export class AccountService {
   async findByEmail(email: string): Promise<Account | undefined> {
     return this.accountRepository.findOne({
       where: { email },
+      relations: { userDetails: true },
     });
   }
   async findByEmailWithPassword(email: string): Promise<Account | undefined> {
