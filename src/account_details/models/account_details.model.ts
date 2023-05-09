@@ -1,4 +1,3 @@
-import { MaxLength } from 'class-validator';
 import { Account } from 'src/accounts/model/account.model';
 import { Card } from 'src/card/models/card.model';
 import * as typeorm from 'typeorm';
@@ -9,11 +8,9 @@ export class AccountDetails {
   id: number;
 
   @typeorm.Column()
-  @MaxLength(45)
   firstName: string;
 
   @typeorm.Column()
-  @MaxLength(45)
   lastName: string;
 
   @typeorm.Column()
