@@ -8,9 +8,9 @@ import { Card } from 'src/card/models/card.model';
 import { AccountService } from 'src/accounts/services/account.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AccountDetails, Card, Account])],
+  imports: [TypeOrmModule.forFeature([AccountDetails, Account])],
   controllers: [AccountDetailsController],
-  providers: [AccountDetailsService, AccountService],
+  providers: [AccountDetailsService],
   exports: [AccountDetailsService],
 })
 export class AccountDetailsModule {}
