@@ -1,14 +1,26 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterDto } from 'src/auth/models/register.dto';
 import { Repository } from 'typeorm';
 import { Account } from '../model/account.model';
+import { CardService } from 'src/card/services/card.service';
+import { AccountDetailsService } from 'src/account_details/services/account_details.service';
 
 @Injectable()
 export class AccountService {
   constructor(
     @InjectRepository(Account)
     private readonly accountRepository: Repository<Account>,
+    @Inject(forwardRef(() => CardService))
+    private cardService: CardService,
+    @Inject(forwardRef(() => AccountDetailsService))
+    private accountDetailsService: AccountDetailsService,
   ) {}
 
   async create(registerDto: RegisterDto): Promise<Account> {
@@ -42,9 +54,23 @@ export class AccountService {
     });
   }
   async findById(id: number): Promise<Account> {
-    return this.accountRepository.findOne({
+    return await this.accountRepository.findOne({
       where: { id: id },
-      relations: { accountDetails: true },
+      relations: { accountDetails: { card: true } },
     });
+  }
+  async delete(accountId: number): Promise<void> {
+    const account = await this.findById(accountId);
+    if (account) {
+      if (account.accountDetails.card) {
+        await this.cardService.softRemove(account.id);
+      }
+      if (account.accountDetails) {
+        await this.accountDetailsService.softRemove(account.accountDetails.id);
+      }
+      await this.accountRepository.remove(account);
+    } else {
+      throw new NotFoundException();
+    }
   }
 }
