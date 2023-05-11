@@ -20,7 +20,9 @@ export class AuthService {
       const token = this.jwtService.sign({ payload });
       return new jwtTokenDTO(token);
     }
-    throw new UnauthorizedException();
+    throw new UnauthorizedException({
+      message: 'Email or password incorrect.',
+    });
   }
 
   async register(registerDto: RegisterDto): Promise<jwtTokenDTO> {
