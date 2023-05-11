@@ -20,10 +20,7 @@ export class Account {
   @Column()
   password: string;
 
-  @OneToOne(() => AccountDetails, (accountDetails) => accountDetails.account, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
+  @OneToOne(() => AccountDetails, (accountDetails) => accountDetails.account)
   @JoinColumn()
   accountDetails: AccountDetails;
   @CreateDateColumn()
