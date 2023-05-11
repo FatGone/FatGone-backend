@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
-import { User } from './users/models/user.model';
-import { UsersModule } from './users/users.module';
+import { AccountDetails } from './account_details/models/account_details.model';
+import { AccountDetailsModule } from './account_details/account_details.module';
 import { AuthModule } from './auth/auth.module';
+import { AccountModule } from './accounts/account.module';
+import { Account } from './accounts/model/account.model';
+import { Card } from './card/models/card.model';
+import { CardModule } from './card/card.module';
 
 @Module({
   imports: [
@@ -17,11 +21,13 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [User],
+      entities: [Account, AccountDetails, Card],
       synchronize: true,
     }),
+    AccountModule,
     AuthModule,
-    UsersModule,
+    AccountDetailsModule,
+    CardModule,
   ],
   controllers: [],
   providers: [],

@@ -1,8 +1,5 @@
 import { Body, Controller, HttpCode } from '@nestjs/common';
-import {
-  Get,
-  Post,
-} from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { Post } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -10,8 +7,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { CurrentUser } from '../../users/decorators/user.decorator';
-import { Secured } from '../decorators/secured.decorator';
 import { jwtTokenDTO as jwtTokenDto } from '../models/jwt_token.dto';
 import { LoginDTO as LoginDto } from '../models/login.dto';
 import { RegisterDto } from '../models/register.dto';
@@ -26,9 +21,9 @@ export class AuthController {
   @HttpCode(200)
   @ApiOkResponse({
     type: jwtTokenDto,
-    description: 'user authenticated successfully',
+    description: 'Account authenticated successfully.',
   })
-  @ApiUnauthorizedResponse({ description: 'invalid credentials' })
+  @ApiUnauthorizedResponse({ description: 'Email or password incorrect.' })
   async login(@Body() loginDto: LoginDto): Promise<jwtTokenDto> {
     return this.authService.login(loginDto.email, loginDto.password);
   }
@@ -36,19 +31,13 @@ export class AuthController {
   @Post('register')
   @ApiCreatedResponse({
     type: jwtTokenDto,
-    description: 'user registered successfully',
+    description: 'Account registered successfully',
   })
   @ApiBadRequestResponse({ description: 'Body does not match defined schema' })
   @ApiBadRequestResponse({
-    description: 'User with specified email address already exists',
+    description: 'Account with specified email address already exists',
   })
   async register(@Body() registerDto: RegisterDto): Promise<jwtTokenDto> {
     return this.authService.register(registerDto);
-  }
-
-  @Secured()
-  @Get('me')
-  me(@CurrentUser() user): any {
-    return user;
   }
 }
