@@ -3,14 +3,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Card } from './models/card.model';
 import { CardController } from './controllers/card.controller';
 import { CardService } from './services/card.service';
-import { Account } from 'src/accounts/model/account.model';
-import { AccountDetails } from 'src/account_details/models/account_details.model';
-import { AccountService } from 'src/accounts/services/account.service';
+import { AccountModule } from 'src/accounts/account.module';
+import { AccountDetailsModule } from 'src/account_details/account_details.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AccountDetails, Card, Account])],
+  imports: [
+    TypeOrmModule.forFeature([Card]),
+    AccountModule,
+    AccountDetailsModule,
+  ],
   controllers: [CardController],
-  providers: [CardService, AccountService],
+  providers: [CardService],
   exports: [CardService],
 })
 export class CardModule {}
