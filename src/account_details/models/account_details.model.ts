@@ -25,12 +25,14 @@ export class AccountDetails {
   @typeorm.Column()
   postCode: string;
 
-  @typeorm.OneToOne(() => Account, (account) => account.accountDetails)
+  @typeorm.OneToOne(() => Account, (account) => account.accountDetails, {
+    onDelete: 'CASCADE',
+  })
   account: Account;
 
   @typeorm.OneToOne(() => Card, (card) => card.accountDetails, {
     cascade: true,
-    onDelete: 'CASCADE',
+    onDelete: 'SET NULL',
   })
   @typeorm.JoinColumn()
   card: Card;
