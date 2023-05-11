@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Card } from './models/card.model';
 import { CardController } from './controllers/card.controller';
@@ -9,8 +9,8 @@ import { AccountDetailsModule } from 'src/account_details/account_details.module
 @Module({
   imports: [
     TypeOrmModule.forFeature([Card]),
-    AccountModule,
-    AccountDetailsModule,
+    forwardRef(() => AccountModule),
+    forwardRef(() => AccountDetailsModule),
   ],
   controllers: [CardController],
   providers: [CardService],

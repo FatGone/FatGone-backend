@@ -1,13 +1,17 @@
 import { AccountService } from './services/account.service';
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Account } from './model/account.model';
 import { AccountController } from './controllers/account.controller';
-import { AccountDetails } from 'src/account_details/models/account_details.model';
-import { Card } from 'src/card/models/card.model';
+import { CardModule } from 'src/card/card.module';
+import { AccountDetailsModule } from 'src/account_details/account_details.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Account, Card, AccountDetails])],
+  imports: [
+    TypeOrmModule.forFeature([Account]),
+    forwardRef(() => CardModule),
+    forwardRef(() => AccountDetailsModule),
+  ],
   controllers: [AccountController],
   providers: [AccountService],
   exports: [AccountService],

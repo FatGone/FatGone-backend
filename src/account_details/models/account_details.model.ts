@@ -25,9 +25,7 @@ export class AccountDetails {
   @typeorm.Column()
   postCode: string;
 
-  @typeorm.OneToOne(() => Account, (account) => account.accountDetails, {
-    onDelete: 'CASCADE',
-  })
+  @typeorm.OneToOne(() => Account, (account) => account.accountDetails)
   account: Account;
 
   @typeorm.OneToOne(() => Card, (card) => card.accountDetails, {
