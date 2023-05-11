@@ -21,9 +21,9 @@ export class AuthController {
   @HttpCode(200)
   @ApiOkResponse({
     type: jwtTokenDto,
-    description: 'Account authenticated successfully',
+    description: 'Account authenticated successfully.',
   })
-  @ApiUnauthorizedResponse({ description: 'invalid credentials' })
+  @ApiUnauthorizedResponse({ description: 'Email or password incorrect.' })
   async login(@Body() loginDto: LoginDto): Promise<jwtTokenDto> {
     return this.authService.login(loginDto.email, loginDto.password);
   }
