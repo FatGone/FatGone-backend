@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsString, MaxLength } from 'class-validator';
+import { IsInt, IsString, Length, MaxLength } from 'class-validator';
 
 export class CardDto {
   @ApiProperty()
   @IsString()
+  @Length(19, 19)
   cardNumber: string;
 
   @ApiProperty()
