@@ -1,8 +1,15 @@
-import { BadRequestException, Body, Controller, Patch } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Patch,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
+  ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { AccountDetailsService as AccountDetailsService } from '../services/account_details.service';
@@ -17,6 +24,21 @@ import { Account } from 'src/accounts/model/account.model';
 @Controller('account/details')
 export class AccountDetailsController {
   constructor(private accountDetailsService: AccountDetailsService) {}
+
+  @Get()
+  @Secured()
+  @ApiNotFoundResponse({
+    description:
+      "Account details not found for this account. Probably details wasn't set.",
+  })
+  @ApiOkResponse({
+    type: AccountDetails,
+    description:
+      'Return account details, if not assigned empty map will be returned',
+  })
+  async get(@CurrentAccount() account: Account): Promise<AccountDetails> {
+    return await this.accountDetailsService.get(account.id);
+  }
 
   @ApiCreatedResponse({
     type: AccountDetails,
