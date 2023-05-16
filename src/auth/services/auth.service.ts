@@ -38,12 +38,7 @@ export class AuthService {
     registerDto.password = await hash(registerDto.password, 11);
     const response = await this.accountService.create(registerDto);
     if (response) {
-      const mail = {
-        to: response.email,
-        from: 'dominik.szpilski@edgarsz.pl',
-        templateId: 'd-7d102b25cfb44207908a6c252e7e9b10',
-      };
-      await this.sendGridService.send(mail);
+      await this.sendGridService.sendPostRegisterMail(response.email);
     }
     return this.login(registerDto.email, plainPassword);
   }
