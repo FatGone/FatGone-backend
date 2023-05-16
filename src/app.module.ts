@@ -8,6 +8,7 @@ import { AccountModule } from './accounts/account.module';
 import { Account } from './accounts/model/account.model';
 import { Card } from './card/models/card.model';
 import { CardModule } from './card/card.module';
+import { SendGridModule } from './sendgrid/sendgrid.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CardModule } from './card/card.module';
     AuthModule,
     AccountDetailsModule,
     CardModule,
+    SendGridModule,
   ],
   controllers: [],
   providers: [],

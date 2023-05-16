@@ -1,16 +1,24 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  UnauthorizedException,
+  forwardRef,
+} from '@nestjs/common';
 import { compare, hash } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { jwtTokenDTO } from '../models/jwt_token.dto';
 import { JwtPayload } from '../models/jwt_payload.dto';
 import { RegisterDto } from '../models/register.dto';
 import { AccountService } from 'src/accounts/services/account.service';
+import { SendGridService } from 'src/sendgrid/services/sendgrid.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private accountService: AccountService,
     private jwtService: JwtService,
+    @Inject(forwardRef(() => SendGridService))
+    private readonly sendGridService: SendGridService,
   ) {}
 
   async login(email: string, password: string): Promise<jwtTokenDTO> {
@@ -28,7 +36,10 @@ export class AuthService {
   async register(registerDto: RegisterDto): Promise<jwtTokenDTO> {
     const plainPassword = registerDto.password;
     registerDto.password = await hash(registerDto.password, 11);
-    await this.accountService.create(registerDto);
+    const response = await this.accountService.create(registerDto);
+    if (response) {
+      await this.sendGridService.sendPostRegisterMail(response.email);
+    }
     return this.login(registerDto.email, plainPassword);
   }
 }
