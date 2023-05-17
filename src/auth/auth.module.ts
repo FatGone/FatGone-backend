@@ -9,6 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './services/auth.service';
 import { AccountModule } from 'src/accounts/account.module';
 import { SendGridModule } from 'src/sendgrid/sendgrid.module';
+import { RemindPasswordModule } from 'src/remind_password/remind_password.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SendGridModule } from 'src/sendgrid/sendgrid.module';
     AccountDetailsModule,
     PassportModule,
     forwardRef(() => SendGridModule),
+    forwardRef(() => RemindPasswordModule),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
