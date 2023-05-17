@@ -11,12 +11,12 @@ export class RemindPassword {
   id: number;
 
   @Column()
-  userId: number;
+  accountId: number;
 
   @Column()
   remindCode: number;
 
-  @Column({ type: 'date' })
+  @Column()
   expiryDate: string;
 
   @CreateDateColumn()
