@@ -9,6 +9,7 @@ import { Account } from './accounts/model/account.model';
 import { Card } from './card/models/card.model';
 import { CardModule } from './card/card.module';
 import { SendGridModule } from './sendgrid/sendgrid.module';
+import { RemindPassword } from './remind_password/models/remind_password.model';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { SendGridModule } from './sendgrid/sendgrid.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Account, AccountDetails, Card],
+      entities: [Account, AccountDetails, Card, RemindPassword],
       synchronize: true,
     }),
     AccountModule,
