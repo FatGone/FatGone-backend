@@ -58,7 +58,10 @@ export class AuthService {
       const remindPassword = await this.remindPasswordService.findByAccountId(
         account.id,
       );
-      if (remindPassword) {
+      if (
+        remindPassword &&
+        remindPassword.remindCode == changePasswordDto.code
+      ) {
         const expiryDate = DateTime.fromISO(remindPassword.expiryDate);
         if (DateTime.now() < expiryDate) {
           changePasswordDto.password = await hash(
@@ -73,6 +76,8 @@ export class AuthService {
           await this.remindPasswordService.deleteById(remindPassword.id);
           throw new BadRequestException();
         }
+      } else {
+        throw new NotFoundException();
       }
     }
 
