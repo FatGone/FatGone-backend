@@ -40,7 +40,7 @@ export class AccountDetails {
     () => Transaction,
     (transaction) => transaction.account_details,
   )
-  transactios: Transaction[];
+  transactions: Transaction[];
 
   @typeorm.CreateDateColumn()
   created_at: Date;
