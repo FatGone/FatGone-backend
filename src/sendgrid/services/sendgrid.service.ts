@@ -35,4 +35,30 @@ export class SendGridService {
     };
     return await SendGrid.send(mail);
   }
+  async sendPostPurchaseMail(membershipType: string, email: string) {
+    const mail = {
+      to: email,
+      from: VERIFIED_SENDER,
+      dynamic_template_data: { membershipType: membershipType },
+      templateId: 'd-0987e25dbc464e65a55c479705e7bd4e',
+    };
+    return await SendGrid.send(mail);
+  }
+
+  async sendCardChargeMail(email: string) {
+    const mail = {
+      to: email,
+      from: VERIFIED_SENDER,
+      templateId: 'd-1a5d7b2b5af4477aa36f3a581cbbaace',
+    };
+    return await SendGrid.send(mail);
+  }
+  async sendFingerprintResetMail(email: string) {
+    const mail = {
+      to: email,
+      from: VERIFIED_SENDER,
+      templateId: 'd-1a055a69879e4903b20f43d63094f840',
+    };
+    return await SendGrid.send(mail);
+  }
 }
