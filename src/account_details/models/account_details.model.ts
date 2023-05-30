@@ -1,5 +1,6 @@
 import { Account } from 'src/accounts/model/account.model';
 import { Card } from 'src/card/models/card.model';
+import { Transaction } from 'src/transactions/models/transaction.model';
 import * as typeorm from 'typeorm';
 
 @typeorm.Entity()
@@ -34,6 +35,13 @@ export class AccountDetails {
   })
   @typeorm.JoinColumn()
   card: Card;
+
+  @typeorm.OneToMany(
+    () => Transaction,
+    (transaction) => transaction.account_details,
+  )
+  transactios: Transaction[];
+
   @typeorm.CreateDateColumn()
   created_at: Date;
 
