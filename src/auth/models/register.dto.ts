@@ -18,4 +18,7 @@ export class RegisterDto {
     },
   )
   password: string;
+
+  @ApiProperty()
+  passwordConfirmation: string;
 }
