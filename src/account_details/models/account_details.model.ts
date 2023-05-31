@@ -17,13 +17,22 @@ export class AccountDetails {
   phoneNumber: string;
 
   @typeorm.Column()
-  address: string;
-
-  @typeorm.Column()
   city: string;
 
   @typeorm.Column()
   postCode: string;
+
+  @typeorm.Column()
+  street: string;
+
+  @typeorm.Column()
+  streetNumber: string;
+
+  @typeorm.Column()
+  flatNumber: string;
+
+  @typeorm.Column()
+  membershipTypeId: number;
 
   @typeorm.OneToOne(() => Account, (account) => account.accountDetails)
   account: Account;
