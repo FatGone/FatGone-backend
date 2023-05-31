@@ -1,4 +1,4 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as SendGrid from '@sendgrid/mail';
 import { VERIFIED_SENDER } from 'src/core/utils/verified_sender';
@@ -8,13 +8,14 @@ export class SendGridService {
   constructor(private readonly configService: ConfigService) {
     SendGrid.setApiKey(this.configService.get<string>('SEND_GRID_KEY'));
   }
-  async sendEmailConfirmationCode(code: string, email: string) {
+  async sendEmailConfirmationCode(verificationCode: string, email: string) {
     const mail = {
       to: email,
       from: VERIFIED_SENDER,
-      templateId: 'not-implemented',
+      dynamic_template_data: { verificationCode: verificationCode },
+      templateId: 'd-004891c21eba47c3adf1f80c294a84c2',
     };
-    throw new NotImplementedException();
+    return await SendGrid.send(mail);
   }
 
   async sendPostRegisterMail(email: string) {
