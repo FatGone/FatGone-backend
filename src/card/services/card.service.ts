@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CardDto } from 'src/card/dto/card.dto';
 import { AccountService } from 'src/accounts/services/account.service';
 import { AccountDetailsService } from 'src/account_details/services/account_details.service';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class CardService {
@@ -39,7 +40,9 @@ export class CardService {
       const card = new Card();
       card.cardNumber = cardDto.cardNumber;
       card.cvvNumber = cardDto.cvvNumber;
-      card.expiryDate = cardDto.expiryDate;
+      const expiryDate = DateTime.fromISO(cardDto.expiryDate);
+      card.expiryDate = expiryDate.toSQLDate();
+
       card.cardHolder = cardDto.cardHolder;
       accountDetails.card = card;
       const cardResponse = await this.cardRepository.save(card);
