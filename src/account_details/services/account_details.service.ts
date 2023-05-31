@@ -36,14 +36,26 @@ export class AccountDetailsService {
     const findAccount = await this.accountService.findById(accountId);
 
     if (findAccount != null) {
-      const accountDetails = new AccountDetails();
+      const findAccountDetails = await this.accountDetailsRepository.findOne({
+        where: { account: findAccount },
+        relations: { card: true },
+      });
+      let accountDetails = new AccountDetails();
+      if (findAccountDetails) {
+        accountDetails = findAccountDetails;
+      } else {
+        accountDetails.card = null;
+      }
       accountDetails.firstName = accountDetailsDto.firstName;
       accountDetails.lastName = accountDetailsDto.lastName;
       accountDetails.phoneNumber = accountDetailsDto.phoneNumber;
-      accountDetails.address = accountDetailsDto.address;
+      accountDetails.street = accountDetailsDto.street;
+      accountDetails.streetNumber = accountDetailsDto.streetNumber;
+      accountDetails.flatNumber = accountDetailsDto.flatNumber;
       accountDetails.city = accountDetailsDto.city;
       accountDetails.postCode = accountDetailsDto.postCode;
-      accountDetails.card = null;
+      accountDetails.membershipTypeId = accountDetailsDto.membershipTypeId;
+
       const savedAccountDetails = await this.accountDetailsRepository.save(
         accountDetails,
       );
