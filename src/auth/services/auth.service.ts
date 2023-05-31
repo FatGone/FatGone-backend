@@ -16,6 +16,7 @@ import { SendGridService } from 'src/sendgrid/services/sendgrid.service';
 import { ChangePasswordDto } from '../models/change_password.dto';
 import { RemindPasswordService } from 'src/remind_password/services/remind_password.service';
 import { DateTime } from 'luxon';
+import { ConfirmationMailDto } from '../models/confirmation_mail.dto';
 
 @Injectable()
 export class AuthService {
@@ -41,11 +42,16 @@ export class AuthService {
   }
 
   async register(registerDto: RegisterDto): Promise<jwtTokenDTO> {
+    console.log('[AuthService] register()');
+
     const plainPassword = registerDto.password;
     registerDto.password = await hash(registerDto.password, 11);
     const response = await this.accountService.create(registerDto);
     if (response) {
-      await this.sendGridService.sendPostRegisterMail(response.email);
+      await this.sendGridService.sendEmailConfirmationCode(
+        '619741',
+        response.email,
+      );
     }
     return this.login(registerDto.email, plainPassword);
   }
@@ -82,5 +88,14 @@ export class AuthService {
     }
 
     throw new NotFoundException();
+  }
+  async sendConfirmationMail(
+    confirmationMailDto: ConfirmationMailDto,
+  ): Promise<void> {
+    await this.sendGridService.sendPostRegisterMail(confirmationMailDto.email);
+    await this.sendGridService.sendPostPurchaseMail(
+      confirmationMailDto.membershipType,
+      confirmationMailDto.email,
+    );
   }
 }
