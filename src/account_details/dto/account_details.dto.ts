@@ -19,11 +19,6 @@ export class AccountDetailsDto {
 
   @ApiProperty()
   @classValidator.IsString()
-  @classValidator.MaxLength(60)
-  address: string;
-
-  @ApiProperty()
-  @classValidator.IsString()
   @classValidator.MaxLength(45)
   city: string;
 
@@ -31,4 +26,14 @@ export class AccountDetailsDto {
   @classValidator.IsString()
   @classValidator.MaxLength(20)
   postCode: string;
+
+  @ApiProperty()
+  street: string;
+  @ApiProperty()
+  streetNumber: string;
+  @ApiProperty()
+  flatNumber: string;
+
+  @ApiProperty()
+  membershipTypeId: number;
 }
