@@ -13,7 +13,7 @@ export class SendGridService {
       to: email,
       from: VERIFIED_SENDER,
       dynamic_template_data: { verificationCode: verificationCode },
-      templateId: 'd-004891c21eba47c3adf1f80c294a84c2',
+      templateId: 'd-67eec06a17db4091be51149c339b278e',
     };
     return await SendGrid.send(mail);
   }
@@ -41,7 +41,7 @@ export class SendGridService {
       to: email,
       from: VERIFIED_SENDER,
       dynamic_template_data: { membershipType: membershipType },
-      templateId: 'd-0987e25dbc464e65a55c479705e7bd4e',
+      templateId: ' d-58c87a23a35049d981a1ea57cc1d9ade',
     };
     return await SendGrid.send(mail);
   }
@@ -50,7 +50,7 @@ export class SendGridService {
     const mail = {
       to: email,
       from: VERIFIED_SENDER,
-      templateId: 'd-1a5d7b2b5af4477aa36f3a581cbbaace',
+      templateId: 'd-28ffde9f30084288b0d6059b6f183c74',
     };
     return await SendGrid.send(mail);
   }
@@ -58,7 +58,7 @@ export class SendGridService {
     const mail = {
       to: email,
       from: VERIFIED_SENDER,
-      templateId: 'd-1a055a69879e4903b20f43d63094f840',
+      templateId: 'd-0f67ee2160574c7aba1851b1de8a2719',
     };
     return await SendGrid.send(mail);
   }
