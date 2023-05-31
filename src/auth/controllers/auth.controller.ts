@@ -13,6 +13,7 @@ import { RegisterDto } from '../models/register.dto';
 import { AuthService } from '../services/auth.service';
 import { RemindPasswordService } from 'src/remind_password/services/remind_password.service';
 import { ChangePasswordDto } from '../models/change_password.dto';
+import { ConfirmationMailDto } from '../models/confirmation_mail.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -65,5 +66,16 @@ export class AuthController {
     @Body() changePasswordDto: ChangePasswordDto,
   ): Promise<void> {
     return await this.authService.changePassword(changePasswordDto);
+  }
+
+  @Post('send-confirmation-mail')
+  @ApiCreatedResponse({
+    description: 'Emails send.',
+  })
+  @ApiBadRequestResponse({ description: 'Server error.' })
+  async sendConfirmationMail(
+    @Body() confirmationMailDto: ConfirmationMailDto,
+  ): Promise<void> {
+    return await this.authService.sendConfirmationMail(confirmationMailDto);
   }
 }
