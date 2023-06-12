@@ -55,7 +55,7 @@ export class CardController {
     @CurrentAccount() account,
     @Body() cardDto: CardDto,
   ): Promise<Card> {
-    return await this.cardService.patch(account.id, cardDto);
+    return await this.cardService.update(account.id, cardDto);
   }
 
   @ApiCreatedResponse({

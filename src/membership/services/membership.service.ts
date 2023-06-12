@@ -57,7 +57,7 @@ export class MembershipService {
           await this.clientMembershipRepository.save(clientMembership);
         if (savedClientMembership) {
           accountDetails.clientMembership = savedClientMembership;
-          const response = await this.accountDetailsService.patch(
+          const response = await this.accountDetailsService.update(
             account.id,
             accountDetails,
           );

@@ -28,7 +28,7 @@ export class AccountDetailsService {
     }
   }
 
-  async patch(
+  async update(
     accountId: number,
     accountDetailsDto: AccountDetailsDto,
   ): Promise<AccountDetails> {
@@ -36,21 +36,19 @@ export class AccountDetailsService {
 
     if (findAccount != null) {
       const findAccountDetails = await this.accountDetailsRepository.findOne({
-        where: { account: findAccount },
+        where: { account: { id: findAccount.id } },
         relations: { card: true },
       });
-
       let accountDetails = new AccountDetails();
-      if (findAccountDetails) {
-        console.log('findAccountDetails valid');
-        accountDetails = findAccountDetails;
-        accountDetails = await this._update(accountDetails, accountDetailsDto);
-      } else {
-        accountDetails.card = null;
-        accountDetails = await this._createNew(
+      if (findAccountDetails != null) {
+        accountDetails = findAccountDetails.copyWithDto(accountDetailsDto);
+        await this.accountDetailsRepository.update(
+          findAccountDetails.id,
           accountDetails,
-          accountDetailsDto,
         );
+      } else {
+        accountDetails = new AccountDetails().copyWithDto(accountDetailsDto);
+        await this.accountDetailsRepository.save(accountDetails);
       }
       findAccount.accountDetails = accountDetails;
       await this.accountService.updateAccount(findAccount);
@@ -59,39 +57,7 @@ export class AccountDetailsService {
       throw new NotFoundException();
     }
   }
-  async _update(
-    accountDetails: AccountDetails,
-    accountDetailsDto: AccountDetailsDto,
-  ): Promise<AccountDetails> {
-    accountDetails.firstName = accountDetailsDto.firstName;
-    accountDetails.lastName = accountDetailsDto.lastName;
-    accountDetails.phoneNumber = accountDetailsDto.phoneNumber;
-    accountDetails.street = accountDetailsDto.street;
-    accountDetails.streetNumber = accountDetailsDto.streetNumber;
-    accountDetails.flatNumber = accountDetailsDto.flatNumber;
-    accountDetails.city = accountDetailsDto.city;
-    accountDetails.postCode = accountDetailsDto.postCode;
-    await this.accountDetailsRepository.update(
-      { id: accountDetails.id },
-      accountDetails,
-    );
-    return accountDetails;
-  }
 
-  async _createNew(
-    accountDetails: AccountDetails,
-    accountDetailsDto: AccountDetailsDto,
-  ): Promise<AccountDetails> {
-    accountDetails.firstName = accountDetailsDto.firstName;
-    accountDetails.lastName = accountDetailsDto.lastName;
-    accountDetails.phoneNumber = accountDetailsDto.phoneNumber;
-    accountDetails.street = accountDetailsDto.street;
-    accountDetails.streetNumber = accountDetailsDto.streetNumber;
-    accountDetails.flatNumber = accountDetailsDto.flatNumber;
-    accountDetails.city = accountDetailsDto.city;
-    accountDetails.postCode = accountDetailsDto.postCode;
-    return await this.accountDetailsRepository.save(accountDetails);
-  }
   async saveAccountDetails(
     accountDetails: AccountDetails,
   ): Promise<AccountDetails> {

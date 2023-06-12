@@ -2,6 +2,7 @@ import { Account } from 'src/accounts/model/account.model';
 import { Card } from 'src/card/models/card.model';
 import { ClientMembership } from 'src/membership/models/client_membership.model';
 import * as typeorm from 'typeorm';
+import { AccountDetailsDto } from '../dto/account_details.dto';
 
 @typeorm.Entity()
 export class AccountDetails {
@@ -58,4 +59,16 @@ export class AccountDetails {
 
   @typeorm.UpdateDateColumn()
   updated_at: Date;
+
+  copyWithDto(accountDetailsDto: AccountDetailsDto): AccountDetails {
+    this.firstName = accountDetailsDto.firstName;
+    this.lastName = accountDetailsDto.lastName;
+    this.phoneNumber = accountDetailsDto.phoneNumber;
+    this.city = accountDetailsDto.city;
+    this.postCode = accountDetailsDto.postCode;
+    this.street = accountDetailsDto.street;
+    this.streetNumber = accountDetailsDto.streetNumber;
+    this.flatNumber = accountDetailsDto.flatNumber;
+    return this;
+  }
 }

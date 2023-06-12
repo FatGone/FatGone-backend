@@ -55,7 +55,7 @@ export class AccountDetailsController {
     @CurrentAccount() account,
     @Body() accountDetailsDto: AccountDetailsDto,
   ): Promise<AccountDetails> {
-    return await this.accountDetailsService.patch(
+    return await this.accountDetailsService.update(
       account.id,
       accountDetailsDto,
     );

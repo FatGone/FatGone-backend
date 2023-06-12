@@ -57,7 +57,7 @@ export class AccountService {
   async findById(id: number): Promise<Account> {
     return await this.accountRepository.findOne({
       where: { id: id },
-      relations: { accountDetails: true },
+      relations: { accountDetails: { card: true } },
     });
   }
   async delete(accountId: number): Promise<void> {
