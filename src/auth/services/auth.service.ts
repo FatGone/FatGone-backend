@@ -76,7 +76,7 @@ export class AuthService {
           );
           account.password = changePasswordDto.password;
           await this.remindPasswordService.deleteById(remindPassword.id);
-          await this.accountService.patchAccount(account);
+          await this.accountService.updateAccount(account);
           return;
         } else {
           await this.remindPasswordService.deleteById(remindPassword.id);

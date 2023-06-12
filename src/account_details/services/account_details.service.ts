@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { AccountDetails } from '../models/account_details.model';
 import { AccountDetailsDto } from '../dto/account_details.dto';
-import { Account } from 'src/accounts/model/account.model';
 import { AccountService } from 'src/accounts/services/account.service';
 
 @Injectable()
@@ -29,42 +28,36 @@ export class AccountDetailsService {
     }
   }
 
-  async patch(
+  async update(
     accountId: number,
     accountDetailsDto: AccountDetailsDto,
-  ): Promise<Account> {
+  ): Promise<AccountDetails> {
     const findAccount = await this.accountService.findById(accountId);
 
     if (findAccount != null) {
       const findAccountDetails = await this.accountDetailsRepository.findOne({
-        where: { account: findAccount },
+        where: { account: { id: findAccount.id } },
         relations: { card: true },
       });
       let accountDetails = new AccountDetails();
-      if (findAccountDetails) {
-        accountDetails = findAccountDetails;
+      if (findAccountDetails != null) {
+        accountDetails = findAccountDetails.copyWithDto(accountDetailsDto);
+        await this.accountDetailsRepository.update(
+          findAccountDetails.id,
+          accountDetails,
+        );
       } else {
-        accountDetails.card = null;
+        accountDetails = new AccountDetails().copyWithDto(accountDetailsDto);
+        await this.accountDetailsRepository.save(accountDetails);
       }
-      accountDetails.firstName = accountDetailsDto.firstName;
-      accountDetails.lastName = accountDetailsDto.lastName;
-      accountDetails.phoneNumber = accountDetailsDto.phoneNumber;
-      accountDetails.street = accountDetailsDto.street;
-      accountDetails.streetNumber = accountDetailsDto.streetNumber;
-      accountDetails.flatNumber = accountDetailsDto.flatNumber;
-      accountDetails.city = accountDetailsDto.city;
-      accountDetails.postCode = accountDetailsDto.postCode;
-      accountDetails.membershipTypeId = accountDetailsDto.membershipTypeId;
-
-      const savedAccountDetails = await this.accountDetailsRepository.save(
-        accountDetails,
-      );
-      findAccount.accountDetails = savedAccountDetails;
-      return await this.accountService.patchAccount(findAccount);
+      findAccount.accountDetails = accountDetails;
+      await this.accountService.updateAccount(findAccount);
+      return accountDetails;
     } else {
       throw new NotFoundException();
     }
   }
+
   async saveAccountDetails(
     accountDetails: AccountDetails,
   ): Promise<AccountDetails> {

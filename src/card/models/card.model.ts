@@ -8,6 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CardDto } from '../dto/card.dto';
+import { DateTime } from 'luxon';
 
 @Entity()
 export class Card {
@@ -35,4 +37,12 @@ export class Card {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  copyWithDto(cardDto: CardDto): Card {
+    this.cardNumber = cardDto.cardNumber;
+    this.cvvNumber = cardDto.cvvNumber;
+    this.expiryDate = DateTime.fromISO(cardDto.expiryDate).toSQLDate();
+    this.cardHolder = cardDto.cardHolder;
+    return this;
+  }
 }

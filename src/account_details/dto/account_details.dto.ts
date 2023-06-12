@@ -33,7 +33,4 @@ export class AccountDetailsDto {
   streetNumber: string;
   @ApiProperty()
   flatNumber: string;
-
-  @ApiProperty()
-  membershipTypeId: number;
 }

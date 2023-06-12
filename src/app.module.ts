@@ -10,6 +10,9 @@ import { Card } from './card/models/card.model';
 import { CardModule } from './card/card.module';
 import { SendGridModule } from './sendgrid/sendgrid.module';
 import { RemindPassword } from './remind_password/models/remind_password.model';
+import { MembershipModule } from './membership/membership.module';
+import { ClientMembership } from './membership/models/client_membership.model';
+import { MembershipType } from './membership/models/membership_type.model';
 
 @Module({
   imports: [
@@ -23,7 +26,14 @@ import { RemindPassword } from './remind_password/models/remind_password.model';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Account, AccountDetails, Card, RemindPassword],
+      entities: [
+        Account,
+        AccountDetails,
+        Card,
+        RemindPassword,
+        ClientMembership,
+        MembershipType,
+      ],
       synchronize: true,
     }),
     AccountModule,
@@ -31,6 +41,7 @@ import { RemindPassword } from './remind_password/models/remind_password.model';
     AccountDetailsModule,
     CardModule,
     SendGridModule,
+    MembershipModule,
   ],
   controllers: [],
   providers: [],
