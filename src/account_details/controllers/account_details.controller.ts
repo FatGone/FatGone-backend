@@ -54,7 +54,7 @@ export class AccountDetailsController {
   async patch(
     @CurrentAccount() account,
     @Body() accountDetailsDto: AccountDetailsDto,
-  ): Promise<Account> {
+  ): Promise<AccountDetails> {
     return await this.accountDetailsService.patch(
       account.id,
       accountDetailsDto,

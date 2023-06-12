@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { AccountDetails } from '../models/account_details.model';
 import { AccountDetailsDto } from '../dto/account_details.dto';
-import { Account } from 'src/accounts/model/account.model';
 import { AccountService } from 'src/accounts/services/account.service';
 
 @Injectable()
@@ -32,7 +31,7 @@ export class AccountDetailsService {
   async patch(
     accountId: number,
     accountDetailsDto: AccountDetailsDto,
-  ): Promise<Account> {
+  ): Promise<AccountDetails> {
     const findAccount = await this.accountService.findById(accountId);
 
     if (findAccount != null) {
@@ -40,30 +39,58 @@ export class AccountDetailsService {
         where: { account: findAccount },
         relations: { card: true },
       });
+
       let accountDetails = new AccountDetails();
       if (findAccountDetails) {
+        console.log('findAccountDetails valid');
         accountDetails = findAccountDetails;
+        accountDetails = await this._update(accountDetails, accountDetailsDto);
       } else {
         accountDetails.card = null;
+        accountDetails = await this._createNew(
+          accountDetails,
+          accountDetailsDto,
+        );
       }
-      accountDetails.firstName = accountDetailsDto.firstName;
-      accountDetails.lastName = accountDetailsDto.lastName;
-      accountDetails.phoneNumber = accountDetailsDto.phoneNumber;
-      accountDetails.street = accountDetailsDto.street;
-      accountDetails.streetNumber = accountDetailsDto.streetNumber;
-      accountDetails.flatNumber = accountDetailsDto.flatNumber;
-      accountDetails.city = accountDetailsDto.city;
-      accountDetails.postCode = accountDetailsDto.postCode;
-      accountDetails.membershipTypeId = accountDetailsDto.membershipTypeId;
-
-      const savedAccountDetails = await this.accountDetailsRepository.save(
-        accountDetails,
-      );
-      findAccount.accountDetails = savedAccountDetails;
-      return await this.accountService.patchAccount(findAccount);
+      findAccount.accountDetails = accountDetails;
+      await this.accountService.updateAccount(findAccount);
+      return accountDetails;
     } else {
       throw new NotFoundException();
     }
+  }
+  async _update(
+    accountDetails: AccountDetails,
+    accountDetailsDto: AccountDetailsDto,
+  ): Promise<AccountDetails> {
+    accountDetails.firstName = accountDetailsDto.firstName;
+    accountDetails.lastName = accountDetailsDto.lastName;
+    accountDetails.phoneNumber = accountDetailsDto.phoneNumber;
+    accountDetails.street = accountDetailsDto.street;
+    accountDetails.streetNumber = accountDetailsDto.streetNumber;
+    accountDetails.flatNumber = accountDetailsDto.flatNumber;
+    accountDetails.city = accountDetailsDto.city;
+    accountDetails.postCode = accountDetailsDto.postCode;
+    await this.accountDetailsRepository.update(
+      { id: accountDetails.id },
+      accountDetails,
+    );
+    return accountDetails;
+  }
+
+  async _createNew(
+    accountDetails: AccountDetails,
+    accountDetailsDto: AccountDetailsDto,
+  ): Promise<AccountDetails> {
+    accountDetails.firstName = accountDetailsDto.firstName;
+    accountDetails.lastName = accountDetailsDto.lastName;
+    accountDetails.phoneNumber = accountDetailsDto.phoneNumber;
+    accountDetails.street = accountDetailsDto.street;
+    accountDetails.streetNumber = accountDetailsDto.streetNumber;
+    accountDetails.flatNumber = accountDetailsDto.flatNumber;
+    accountDetails.city = accountDetailsDto.city;
+    accountDetails.postCode = accountDetailsDto.postCode;
+    return await this.accountDetailsRepository.save(accountDetails);
   }
   async saveAccountDetails(
     accountDetails: AccountDetails,

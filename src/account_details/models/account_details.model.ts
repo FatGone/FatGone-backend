@@ -1,5 +1,6 @@
 import { Account } from 'src/accounts/model/account.model';
 import { Card } from 'src/card/models/card.model';
+import { ClientMembership } from 'src/membership/models/client_membership.model';
 import * as typeorm from 'typeorm';
 
 @typeorm.Entity()
@@ -31,9 +32,6 @@ export class AccountDetails {
   @typeorm.Column()
   flatNumber: string;
 
-  @typeorm.Column()
-  membershipTypeId: number;
-
   @typeorm.OneToOne(() => Account, (account) => account.accountDetails)
   account: Account;
 
@@ -42,7 +40,19 @@ export class AccountDetails {
     onDelete: 'SET NULL',
   })
   @typeorm.JoinColumn()
-  card: Card;
+  card: Card | null;
+
+  @typeorm.OneToOne(
+    () => ClientMembership,
+    (clientMembership) => clientMembership.accountDetails,
+    {
+      cascade: true,
+      onDelete: 'SET NULL',
+    },
+  )
+  @typeorm.JoinColumn()
+  clientMembership: ClientMembership | null;
+
   @typeorm.CreateDateColumn()
   created_at: Date;
 

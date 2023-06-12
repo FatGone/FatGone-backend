@@ -24,7 +24,7 @@ export class Account {
     onDelete: 'CASCADE',
   })
   @JoinColumn()
-  accountDetails: AccountDetails;
+  accountDetails: AccountDetails | null;
   @CreateDateColumn()
   created_at: Date;
 

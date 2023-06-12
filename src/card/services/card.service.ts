@@ -25,7 +25,6 @@ export class CardService {
 
   async get(accountId: number): Promise<Card> {
     const account = await this.accountService.findById(accountId);
-    console.log('account.accountDetails.card: ' + account.accountDetails.card);
     if (account.accountDetails && account.accountDetails.card) {
       return account.accountDetails.card;
     } else {
@@ -37,17 +36,21 @@ export class CardService {
     const account = await this.accountService.findById(accountId);
     if (account != null) {
       const accountDetails = account.accountDetails;
-      const card = new Card();
-      card.cardNumber = cardDto.cardNumber;
-      card.cvvNumber = cardDto.cvvNumber;
-      const expiryDate = DateTime.fromISO(cardDto.expiryDate);
-      card.expiryDate = expiryDate.toSQLDate();
+      if (accountDetails) {
+        const card = new Card();
+        card.cardNumber = cardDto.cardNumber;
+        card.cvvNumber = cardDto.cvvNumber;
+        const expiryDate = DateTime.fromISO(cardDto.expiryDate);
+        card.expiryDate = expiryDate.toSQLDate();
 
-      card.cardHolder = cardDto.cardHolder;
-      accountDetails.card = card;
-      const cardResponse = await this.cardRepository.save(card);
-      await this.accountDetailsService.saveAccountDetails(accountDetails);
-      return cardResponse;
+        card.cardHolder = cardDto.cardHolder;
+        accountDetails.card = card;
+        const cardResponse = await this.cardRepository.save(card);
+        await this.accountDetailsService.saveAccountDetails(accountDetails);
+        return cardResponse;
+      } else {
+        throw new NotFoundException();
+      }
     } else {
       throw new NotFoundException();
     }
