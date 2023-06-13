@@ -10,7 +10,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CardDto } from 'src/card/dto/card.dto';
 import { AccountService } from 'src/accounts/services/account.service';
 import { AccountDetailsService } from 'src/account_details/services/account_details.service';
-import { DateTime } from 'luxon';
 
 @Injectable()
 export class CardService {
