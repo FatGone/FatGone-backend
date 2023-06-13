@@ -36,8 +36,8 @@ export class CardService {
     const account = await this.accountService.findById(accountId);
     if (account != null) {
       const accountDetails = account.accountDetails;
-      let result;
       if (accountDetails) {
+        let result;
         if (accountDetails.card) {
           const newCard = accountDetails.card.copyWithDto(cardDto);
           await this.cardRepository.update(accountDetails.card.id, newCard);
@@ -46,6 +46,7 @@ export class CardService {
           result = new Card().copyWithDto(cardDto);
           await this.cardRepository.save(result);
         }
+        accountDetails.card = result;
         await this.accountDetailsService.saveAccountDetails(accountDetails);
         return result;
       } else {
