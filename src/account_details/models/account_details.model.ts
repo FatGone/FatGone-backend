@@ -16,9 +16,6 @@ export class AccountDetails {
   lastName: string;
 
   @typeorm.Column()
-  phoneNumber: string;
-
-  @typeorm.Column()
   city: string;
 
   @typeorm.Column()
@@ -63,7 +60,6 @@ export class AccountDetails {
   copyWithDto(accountDetailsDto: AccountDetailsDto): AccountDetails {
     this.firstName = accountDetailsDto.firstName;
     this.lastName = accountDetailsDto.lastName;
-    this.phoneNumber = accountDetailsDto.phoneNumber;
     this.city = accountDetailsDto.city;
     this.postCode = accountDetailsDto.postCode;
     this.street = accountDetailsDto.street;

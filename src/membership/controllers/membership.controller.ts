@@ -42,4 +42,28 @@ export class MembershipController {
       membershipTypeId,
     );
   }
+  @Post('/freeze')
+  @Secured()
+  @ApiNotFoundResponse({
+    description: 'Account not found.',
+  })
+  async freeze(@CurrentAccount() account: Account): Promise<void> {
+    await this.membershipService.toggleFreeze(account.id);
+  }
+  @Post('/cancel')
+  @Secured()
+  @ApiNotFoundResponse({
+    description: 'Account not found.',
+  })
+  async cancel(@CurrentAccount() account: Account): Promise<void> {
+    await this.membershipService.cancel(account.id);
+  }
+  @Post('/finger-print-reset')
+  @Secured()
+  @ApiNotFoundResponse({
+    description: 'Account not found.',
+  })
+  async fingerPrintReset(@CurrentAccount() account: Account): Promise<void> {
+    await this.membershipService.fingerPrintReset(account.email);
+  }
 }

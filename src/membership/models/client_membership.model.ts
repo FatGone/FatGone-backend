@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -15,6 +16,9 @@ export class ClientMembership {
 
   @Column()
   freezed: boolean;
+
+  @Column({ default: null })
+  remainingDays: number | null;
 
   @Column()
   joinedAt: string;
@@ -31,14 +35,6 @@ export class ClientMembership {
   )
   accountDetails: AccountDetails;
 
-  @OneToOne(
-    () => MembershipType,
-    (membershipType) => membershipType.clientMembership,
-    {
-      cascade: true,
-      onDelete: 'SET NULL',
-    },
-  )
-  @JoinColumn()
+  @ManyToOne(() => MembershipType)
   membershipType: MembershipType;
 }

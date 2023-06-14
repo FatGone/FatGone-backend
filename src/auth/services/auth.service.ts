@@ -17,6 +17,7 @@ import { ChangePasswordDto } from '../models/change_password.dto';
 import { RemindPasswordService } from 'src/remind_password/services/remind_password.service';
 import { DateTime } from 'luxon';
 import { ConfirmationMailDto } from '../models/confirmation_mail.dto';
+import { MembershipService } from 'src/membership/services/membership.service';
 
 @Injectable()
 export class AuthService {
@@ -27,6 +28,8 @@ export class AuthService {
     private readonly sendGridService: SendGridService,
     @Inject(forwardRef(() => RemindPasswordService))
     private readonly remindPasswordService: RemindPasswordService,
+    @Inject(forwardRef(() => MembershipService))
+    private readonly membershipService: MembershipService,
   ) {}
 
   async login(email: string, password: string): Promise<jwtTokenDTO> {
@@ -93,8 +96,11 @@ export class AuthService {
     confirmationMailDto: ConfirmationMailDto,
   ): Promise<void> {
     await this.sendGridService.sendPostRegisterMail(confirmationMailDto.email);
+    const membershipType = await this.membershipService.findById(
+      confirmationMailDto.membershipTypeId,
+    );
     await this.sendGridService.sendPostPurchaseMail(
-      confirmationMailDto.membershipType,
+      membershipType.name,
       confirmationMailDto.email,
     );
   }

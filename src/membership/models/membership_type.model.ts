@@ -1,5 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ClientMembership } from './client_membership.model';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class MembershipType {
@@ -17,9 +16,4 @@ export class MembershipType {
 
   @Column({ type: 'double' })
   registrationFee: number;
-  @OneToOne(
-    () => ClientMembership,
-    (clientMembership) => clientMembership.membershipType,
-  )
-  clientMembership: ClientMembership;
 }

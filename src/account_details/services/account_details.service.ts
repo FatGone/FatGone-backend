@@ -37,7 +37,7 @@ export class AccountDetailsService {
     if (findAccount != null) {
       const findAccountDetails = await this.accountDetailsRepository.findOne({
         where: { account: { id: findAccount.id } },
-        relations: { card: true },
+        relations: { card: true, clientMembership: { membershipType: true } },
       });
       let accountDetails = new AccountDetails();
       if (findAccountDetails != null) {

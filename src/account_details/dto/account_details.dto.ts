@@ -14,11 +14,6 @@ export class AccountDetailsDto {
 
   @ApiProperty()
   @classValidator.IsString()
-  @classValidator.MaxLength(20)
-  phoneNumber: string;
-
-  @ApiProperty()
-  @classValidator.IsString()
   @classValidator.MaxLength(45)
   city: string;
 
@@ -29,8 +24,10 @@ export class AccountDetailsDto {
 
   @ApiProperty()
   street: string;
+
   @ApiProperty()
   streetNumber: string;
+
   @ApiProperty()
   flatNumber: string;
 }

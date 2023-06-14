@@ -4,5 +4,5 @@ export class ConfirmationMailDto {
   @ApiProperty()
   email: string;
   @ApiProperty()
-  membershipType: string;
+  membershipTypeId: number;
 }

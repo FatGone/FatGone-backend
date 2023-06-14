@@ -6,12 +6,14 @@ import { AccountModule } from 'src/accounts/account.module';
 import { MembershipController } from './controllers/membership.controller';
 import { MembershipService } from './services/membership.service';
 import { AccountDetailsModule } from 'src/account_details/account_details.module';
+import { SendGridModule } from 'src/sendgrid/sendgrid.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ClientMembership, MembershipType]),
     forwardRef(() => AccountModule),
     forwardRef(() => AccountDetailsModule),
+    forwardRef(() => SendGridModule),
   ],
   controllers: [MembershipController],
   providers: [MembershipService],

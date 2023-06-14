@@ -10,6 +10,7 @@ import { AuthService } from './services/auth.service';
 import { AccountModule } from 'src/accounts/account.module';
 import { SendGridModule } from 'src/sendgrid/sendgrid.module';
 import { RemindPasswordModule } from 'src/remind_password/remind_password.module';
+import { MembershipModule } from 'src/membership/membership.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RemindPasswordModule } from 'src/remind_password/remind_password.module
     PassportModule,
     forwardRef(() => SendGridModule),
     forwardRef(() => RemindPasswordModule),
+    forwardRef(() => MembershipModule),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
