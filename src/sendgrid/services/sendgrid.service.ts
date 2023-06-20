@@ -32,7 +32,7 @@ export class SendGridService {
       to: email,
       from: VERIFIED_SENDER,
       dynamic_template_data: { code: code },
-      templateId: 'd-f397ef6a2f75498d9d931add0658ce8d',
+      templateId: 'd-306299249de542df90308c7750bc449e',
     };
     return await SendGrid.send(mail);
   }
@@ -41,7 +41,7 @@ export class SendGridService {
       to: email,
       from: VERIFIED_SENDER,
       dynamic_template_data: { membershipType: membershipType },
-      templateId: ' d-58c87a23a35049d981a1ea57cc1d9ade',
+      templateId: 'd-58c87a23a35049d981a1ea57cc1d9ade',
     };
     return await SendGrid.send(mail);
   }
